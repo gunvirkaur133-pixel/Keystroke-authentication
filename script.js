@@ -38,6 +38,10 @@ if (passField) {
 // Dashboard load
 if (window.location.pathname.includes("dashboard.html")) {
     const user = localStorage.getItem("currentUser");
+    if (!user) {
+    window.location.href = "index.html";
+    return;
+}
     const accuracy = localStorage.getItem("accuracy");
 
     document.getElementById("welcomeUser").innerText = "Hello, " + user;
@@ -148,6 +152,7 @@ window.location.href = "index.html";
 
 
 // LOGIN with loader + compare graph
+timings = [];
 function login() {
 const loader = document.getElementById("loader");
 loader.style.display = "flex";
@@ -183,7 +188,7 @@ setTimeout(() => {
     const avg = diff / count;
     const accuracy = Math.max(0, 100 - avg);
 
-    if (pass === data.password && avg < 160) {
+    if (pass === data.password && avg < 150) {
         localStorage.setItem("currentUser", user);
         localStorage.setItem("accuracy", accuracy.toFixed(2));
         localStorage.setItem("lastPattern", JSON.stringify(currentPattern));
@@ -201,4 +206,9 @@ setTimeout(() => {
 
 function goRegister() { window.location.href = "register.html"; }
 function goLogin() { window.location.href = "index.html"; }
-function logout() { window.location.href = "index.html"; }
+function logout() {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("accuracy");
+    localStorage.removeItem("lastPattern");
+    window.location.href = "index.html";
+}
