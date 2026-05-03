@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Secure Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<!-- LOADER -->
+
+<div class="loader" id="loader">
+    <div class="spinner"></div>
+    <p style="margin-top:10px;">Authenticating...</p>
+</div>
+
+<body>
+
+<div class="container">
+    <img src="https://img.icons8.com/fluency/96/lock.png" class="icon">
+
+<h2>Secure Login</h2>
+
+<input type="text" id="logUser" placeholder="Username">
+<input type="password" id="logPass" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p id="result"></p>
+
+<p class="link" onclick="goRegister()">New user? Register</p>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
