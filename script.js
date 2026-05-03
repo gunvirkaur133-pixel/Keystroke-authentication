@@ -1,3 +1,4 @@
+let firstPassword = null;
 let timings = [];
 
 // Capture typing on current password field
@@ -88,6 +89,17 @@ function register() {
 
 let user = document.getElementById("regUser").value.trim();
 let pass = document.getElementById("regPass").value;
+// 🔥 FIRST ATTEMPT → STORE PASSWORD
+if (trainingPatterns.length === 0) {
+    firstPassword = pass;
+}
+
+// 🔥 CHECK PASSWORD MATCH IN NEXT ATTEMPTS
+if (trainingPatterns.length > 0 && pass !== firstPassword) {
+    alert("Password does not match previous entry ❌");
+    timings = [];   // reset typing capture
+    return;
+}
 
 let pattern = calculatePattern(timings);
 
@@ -102,6 +114,9 @@ trainingPatterns.push(pattern);
 alert("Training " + trainingPatterns.length + " / 3 done");
 
 timings = [];
+document.getElementById("regPass").value = "";
+document.getElementById("regPass").focus();
+
 
 // Stop until 3 attempts
 if (trainingPatterns.length < 3) {
@@ -125,6 +140,7 @@ localStorage.setItem(user, JSON.stringify({
 alert("Training Complete ✅ Registered!");
 
 trainingPatterns = [];
+firstPassword = null;
 
 window.location.href = "index.html";
 
@@ -167,7 +183,7 @@ setTimeout(() => {
     const avg = diff / count;
     const accuracy = Math.max(0, 100 - avg);
 
-    if (pass === data.password && avg < 60) {
+    if (pass === data.password && avg < 160) {
         localStorage.setItem("currentUser", user);
         localStorage.setItem("accuracy", accuracy.toFixed(2));
         localStorage.setItem("lastPattern", JSON.stringify(currentPattern));
