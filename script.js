@@ -149,7 +149,7 @@ alert("Training Complete ✅ Registered!");
 trainingPatterns = [];
 firstPassword = null;
 
-const response = await fetch("http://127.0.0.1:5000/register", {
+const response = await fetch("https://keystroke-authentication.onrender.com", {
 
     method: "POST",
 
