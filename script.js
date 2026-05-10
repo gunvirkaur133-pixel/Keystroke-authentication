@@ -1,3 +1,4 @@
+console.log("JS Connected");
 let firstPassword = null;
 let timings = [];
 
@@ -89,7 +90,9 @@ return out;
 // REGISTER
 let trainingPatterns = [];
 
-function register() {
+async function register() {
+    console.log("register function running");
+    console.log("clicked");
 
 let user = document.getElementById("regUser").value.trim();
 let pass = document.getElementById("regPass").value;
@@ -146,10 +149,43 @@ alert("Training Complete ✅ Registered!");
 trainingPatterns = [];
 firstPassword = null;
 
-window.location.href = "index.html";
+const response = await fetch("http://127.0.0.1:5000/register", {
 
+    method: "POST",
+
+    headers: {
+        "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+        username: user,
+        password: pass,
+        keystrokeData: avgPattern
+    })
+});
+
+const data = await response.json();
+
+alert(data);
+
+// STOP if duplicate
+if (
+    data === "Username already exists ❌" ||
+    data === "Password already used ❌"
+) {
+    return;
 }
 
+// ONLY move forward if successful
+if (data === "User Registered Successfully") {
+
+    localStorage.setItem("currentUser", user);
+
+    alert("Registration Successful ✅");
+
+    document.getElementById("regUser").value = "";
+    document.getElementById("regPass").value = "";
+}}
 
 // LOGIN with loader + compare graph
 timings = [];
@@ -211,4 +247,7 @@ function logout() {
     localStorage.removeItem("accuracy");
     localStorage.removeItem("lastPattern");
     window.location.href = "index.html";
+}
+function viewUsers() {
+    window.location.href = "users.html";
 }
