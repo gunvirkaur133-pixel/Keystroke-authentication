@@ -19,26 +19,37 @@
 
 async function loadUsers() {
 
-    const response =
-        await fetch("https://keystroke-authentication.onrender.com/users");
+    const usersDiv = document.getElementById("users");
 
-    const users = await response.json();
+    usersDiv.innerHTML = "";
 
-    console.log(users);
+    // LOCAL STORAGE USERS
+    for (let i = 0; i < localStorage.length; i++) {
 
-    const usersDiv =
-        document.getElementById("users");
+        const key = localStorage.key(i);
 
-    users.forEach(user => {
+        // skip system keys
+        if (
+            key === "currentUser" ||
+            key === "accuracy" ||
+            key === "lastPattern"
+        ) {
+            continue;
+        }
 
-        const p =
-            document.createElement("p");
+        const p = document.createElement("p");
 
-        p.innerText = user.username;
+        p.innerText = key;
+
+        p.style.color = "white";
+        p.style.background = "rgba(255,255,255,0.1)";
+        p.style.padding = "12px";
+        p.style.margin = "10px 0";
+        p.style.borderRadius = "10px";
+        p.style.textAlign = "center";
 
         usersDiv.appendChild(p);
-
-    });
+    }
 }
 
 loadUsers();
